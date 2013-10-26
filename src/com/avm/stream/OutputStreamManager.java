@@ -4,7 +4,10 @@
 package com.avm.stream;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketAddress;
+import java.net.SocketException;
 
 /**
  * @author Antonio Vicente Martin
@@ -13,13 +16,19 @@ import java.io.OutputStream;
 public class OutputStreamManager implements Runnable{
 	
 	private byte [] data = {'h','e','l','l','o'};
-	private OutputStream os;
+	private DatagramSocket serverUDP;
+	private DatagramPacket packetUDP;
 	
 	/**
 	 * 
 	 */
-	public OutputStreamManager(OutputStream os, byte [] buffer) {
-		this.os = os;
+	public OutputStreamManager(DatagramSocket serverUDP,SocketAddress address,byte [] buffer) {
+		this.serverUDP = serverUDP;
+		try {
+			this.packetUDP = new DatagramPacket(data,data.length,address);
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
 		//this.data = buffer;
 	}
 
@@ -29,8 +38,9 @@ public class OutputStreamManager implements Runnable{
 	@Override
 	public void run() {
 		//while (true) {
+		
 			try {
-				os.write(data);
+				serverUDP.send(packetUDP);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

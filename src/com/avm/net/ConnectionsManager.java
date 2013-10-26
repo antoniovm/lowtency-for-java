@@ -4,6 +4,7 @@
 package com.avm.net;
 
 import java.io.IOException;
+import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -15,16 +16,21 @@ import com.avm.stream.OutputStreamManager;
  *
  */
 public class ConnectionsManager implements Runnable{
+	
+	private static final int DEFAULT_SERVER_PORT = 3333;
 
-	private ServerSocket serverSocket;
+	private ServerSocket serverTCP;
+	private DatagramSocket serverUDP;
 	private ArrayList<OutputStreamManager> incomingConnections;
 	
 	/**
 	 * 
 	 */
 	public ConnectionsManager() {
+		incomingConnections = new ArrayList<>();
 		try {
-			serverSocket = new ServerSocket(3333);
+			serverTCP = new ServerSocket(DEFAULT_SERVER_PORT);
+			serverUDP = new DatagramSocket(DEFAULT_SERVER_PORT);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -43,8 +49,8 @@ public class ConnectionsManager implements Runnable{
 	 */
 	private void handleNewConnection(){
 			try {
-				Socket s = serverSocket.accept();
-				OutputStreamManager osm = new OutputStreamManager(s.getOutputStream(), null);
+				Socket s = serverTCP.accept();
+				OutputStreamManager osm = new OutputStreamManager(serverUDP,s.getRemoteSocketAddress(),null);
 				incomingConnections.add(osm);
 				new Thread(osm).start();
 			} catch (IOException e) {
