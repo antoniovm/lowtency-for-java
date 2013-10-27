@@ -40,6 +40,10 @@ public class OutputStreamManager implements Runnable{
 		//while (true) {
 		
 			try {
+				//TODO get stream
+				//TODO compress stream
+				//TODO send commpressed stream
+				
 				serverUDP.send(packetUDP);
 			} catch (IOException e) {
 				e.printStackTrace();
