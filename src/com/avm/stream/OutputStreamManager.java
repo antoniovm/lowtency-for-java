@@ -59,7 +59,7 @@ public class OutputStreamManager implements Runnable{
 			}
 			System.out.println("First byte: "+audioWaveManager.getBuffer()[0]);
 			try {
-				Thread.sleep((long)(DEFAULT_BUFFER_SIZE/(double)(DEFAULT_SAMPLE_RATE/2)*900));
+				Thread.sleep((long)(DEFAULT_BUFFER_SIZE/(double)(DEFAULT_SAMPLE_RATE*2)*1000));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

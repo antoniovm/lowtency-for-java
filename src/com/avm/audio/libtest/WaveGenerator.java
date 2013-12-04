@@ -7,6 +7,7 @@ public class WaveGenerator {
 	}
 
 	public static double square(long dt, double lamda, double freq) {
-		return WaveGenerator.sine(dt, lamda, freq) > 0 ? 1 : -1;
+		//return WaveGenerator.sine(dt, lamda, freq) > 0 ? 1 : -1;
+		return (dt / lamda) % freq < freq ? 1 : -1;
 	}
 }
