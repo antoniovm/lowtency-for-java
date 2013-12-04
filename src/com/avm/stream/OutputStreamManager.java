@@ -9,23 +9,32 @@ import java.net.DatagramSocket;
 import java.net.SocketAddress;
 import java.net.SocketException;
 
+import com.avm.audio.libtest.AudioWaveManager;
+
 /**
  * @author Antonio Vicente Martin
  *
  */
 public class OutputStreamManager implements Runnable{
 	
-	private byte [] data = {'h','e','l','l','o'};
+	public static final int DEFAULT_BUFFER_SIZE = 512;
+	public static final int DEFAULT_SAMPLE_RATE = 44100;
+	
+	private AudioWaveManager audioWaveManager;
 	private DatagramSocket serverUDP;
 	private DatagramPacket packetUDP;
 	
 	/**
 	 * 
 	 */
-	public OutputStreamManager(DatagramSocket serverUDP,SocketAddress address,byte [] buffer) {
+	public OutputStreamManager(DatagramSocket serverUDP,SocketAddress address) {
+		this.audioWaveManager = new AudioWaveManager(DEFAULT_BUFFER_SIZE, DEFAULT_SAMPLE_RATE);
+		
+		audioWaveManager.fillBuffer();
+		
 		this.serverUDP = serverUDP;
 		try {
-			this.packetUDP = new DatagramPacket(data,data.length,address);
+			this.packetUDP = new DatagramPacket(audioWaveManager.getBuffer(),audioWaveManager.getBuffer().length,address);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
@@ -37,25 +46,21 @@ public class OutputStreamManager implements Runnable{
 	 */
 	@Override
 	public void run() {
-		//while (true) {
-		
+		while (true) {
+			//TODO get stream
+			//TODO compress stream
+			//TODO send commpressed stream
+			audioWaveManager.fillBuffer();
+			packetUDP.setData(audioWaveManager.getBuffer());
 			try {
-				//TODO get stream
-				//TODO compress stream
-				//TODO send commpressed stream
-				for (int i = 0; i < 10; i++) {
-					serverUDP.send(packetUDP);
-					System.out.println("Sent UDP "+i);
-					Thread.sleep(10);
-				}
-				System.out.println("UPD sent!");
+				serverUDP.send(packetUDP);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		//}
-			catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			System.out.println("Sent UDP ");
+		
+		}
+			
 		
 	}
 

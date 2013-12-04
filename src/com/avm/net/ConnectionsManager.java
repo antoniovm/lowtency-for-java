@@ -55,11 +55,10 @@ public class ConnectionsManager implements Runnable{
 	 *  to send stream data to client
 	 */
 	private void handleNewConnection(){
-		byte [] remoteUDPPortData = new byte [2];
+		byte [] remoteUDPPortData = new byte [4];
 		int bytesRead = 0;
+		int udpPort = 0;
 			try {
-				//System.out.println("Server address: " + InetAddress.getLocalHost().getHostAddress() + ":" + serverTCP.getLocalPort());
-				System.out.println("Server netifaces: " + NetworkManager.printListString());
 				System.out.println("Waiting for client...");
 				Socket s = serverTCP.accept();
 				System.out.println("New connection from: " + s.getRemoteSocketAddress());
@@ -67,9 +66,10 @@ public class ConnectionsManager implements Runnable{
 				//Get udp port
 				bytesRead = s.getInputStream().read(remoteUDPPortData);
 				
-				SocketAddress socketAddress = new InetSocketAddress(s.getInetAddress().getHostAddress(), ByteBuffer.wrap(remoteUDPPortData).getInt());
+				udpPort = ByteBuffer.wrap(remoteUDPPortData).getInt();
+				SocketAddress socketAddress = new InetSocketAddress(s.getInetAddress().getHostAddress(), udpPort);
 				
-				OutputStreamManager osm = new OutputStreamManager(serverUDP,socketAddress,null);
+				OutputStreamManager osm = new OutputStreamManager(serverUDP,socketAddress);
 				incomingConnections.add(osm);
 				
 				//Starts a new thread to handle the streaming
@@ -85,6 +85,7 @@ public class ConnectionsManager implements Runnable{
 	 */
 	@Override
 	public void run() {
+		System.out.println("Server netifaces: " + NetworkManager.printListString());
 		while (true) {
 			handleNewConnection();
 		}

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.avm.main;
+package com.avm;
 
 import com.avm.net.ConnectionsManager;
 
