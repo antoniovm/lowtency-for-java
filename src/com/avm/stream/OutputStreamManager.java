@@ -43,12 +43,19 @@ public class OutputStreamManager implements Runnable{
 				//TODO get stream
 				//TODO compress stream
 				//TODO send commpressed stream
-				
-				serverUDP.send(packetUDP);
+				for (int i = 0; i < 10; i++) {
+					serverUDP.send(packetUDP);
+					System.out.println("Sent UDP "+i);
+					Thread.sleep(10);
+				}
+				System.out.println("UPD sent!");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		//}
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		
 	}
 
