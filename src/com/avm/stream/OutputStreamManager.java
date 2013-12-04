@@ -57,7 +57,12 @@ public class OutputStreamManager implements Runnable{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("Sent UDP ");
+			System.out.println("First byte: "+audioWaveManager.getBuffer()[0]);
+			try {
+				Thread.sleep((long)(DEFAULT_BUFFER_SIZE/(double)(DEFAULT_SAMPLE_RATE/2)*900));
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		
 		}
 			
