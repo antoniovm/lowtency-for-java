@@ -17,7 +17,7 @@ import com.avm.audio.libtest.AudioWaveManager;
  */
 public class OutputStreamManager implements Runnable{
 	
-	public static final int DEFAULT_BUFFER_SIZE = 512;
+	public static final int DEFAULT_BUFFER_SIZE = 8192;
 	public static final int DEFAULT_SAMPLE_RATE = 44100;
 	
 	private AudioWaveManager audioWaveManager;
@@ -59,7 +59,7 @@ public class OutputStreamManager implements Runnable{
 			}
 			System.out.println("First byte: "+audioWaveManager.getBuffer()[0]);
 			try {
-				Thread.sleep((long)(DEFAULT_BUFFER_SIZE/(double)(DEFAULT_SAMPLE_RATE*2)*1000));
+				Thread.sleep((long)(DEFAULT_BUFFER_SIZE/(double)(DEFAULT_SAMPLE_RATE*2)*500));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

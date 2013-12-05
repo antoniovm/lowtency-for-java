@@ -24,9 +24,9 @@ public class AudioWaveManager {
 	
 	public void fillBuffer() {
 		// Converts a short value into 2 bytes
-		for (int i = 0; i < buffer.capacity()/2; i++) {
+		for (int i = 0; buffer.position() < buffer.capacity(); i++) {
 			double doubleValue = oscillator.nextSineSample();
-			buffer.putShort(i,(short)(doubleValue*Short.MAX_VALUE));
+			buffer.putShort((short)(doubleValue*Short.MAX_VALUE));
 		}
 	}
 	
