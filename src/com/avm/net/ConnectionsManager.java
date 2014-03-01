@@ -9,10 +9,10 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 import com.avm.stream.OutputStreamManager;
+import com.avm.util.ByteConverter;
 
 /**
  * @author Antonio Vicente Martin
@@ -66,7 +66,8 @@ public class ConnectionsManager implements Runnable{
 				//Get udp port
 				bytesRead = s.getInputStream().read(remoteUDPPortData);
 				
-				udpPort = ByteBuffer.wrap(remoteUDPPortData).getInt();
+				//udpPort = ByteBuffer.wrap(remoteUDPPortData).getInt();
+				udpPort = ByteConverter.toIntValue(remoteUDPPortData, 0, true);
 				SocketAddress socketAddress = new InetSocketAddress(s.getInetAddress().getHostAddress(), udpPort);
 				
 				OutputStreamManager osm = new OutputStreamManager(serverUDP,socketAddress);

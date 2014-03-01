@@ -51,9 +51,19 @@ public class ByteConverter {
 	/**
 	 * 
 	 */
-	public static int toIntValue(byte [] bytes, int index) {
+	public static int toIntValue(byte [] bytes, int index, boolean littleEndian) {
 		int value = 0;
-		for (int i = index; i < 4 && i < bytes.length; i++) {
+		
+		int i = index;
+		int sum = 1;
+		
+		if (littleEndian) {
+			// Reverse iteration
+			i = Math.min(bytes.length ,4 + index);
+			sum = -1;
+		}
+		
+		for (; i < 4 && i < bytes.length && i >= index; i+=sum) {
 			value += bytes[i] << 8*i;
 		}
 		
