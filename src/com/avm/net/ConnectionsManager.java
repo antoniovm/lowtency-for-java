@@ -12,7 +12,6 @@ import java.net.SocketAddress;
 import java.util.ArrayList;
 
 import com.avm.stream.OutputStreamManager;
-import com.avm.util.ByteConverter;
 
 /**
  * @author Antonio Vicente Martin
@@ -55,8 +54,6 @@ public class ConnectionsManager implements Runnable{
 	 *  to send stream data to client
 	 */
 	private void handleNewConnection(){
-		byte [] remoteUDPPortData = new byte [4];
-		int bytesRead = 0;
 		int udpPort = 0;
 			try {
 				System.out.println("Waiting for client...");
@@ -64,12 +61,11 @@ public class ConnectionsManager implements Runnable{
 				System.out.println("New connection from: " + s.getRemoteSocketAddress());
 				
 				//Get udp port
-				bytesRead = s.getInputStream().read(remoteUDPPortData);
+				udpPort = s.getPort();
 				
-				//udpPort = ByteBuffer.wrap(remoteUDPPortData).getInt();
-				udpPort = ByteConverter.toIntValue(remoteUDPPortData, 0, true);
 				SocketAddress socketAddress = new InetSocketAddress(s.getInetAddress().getHostAddress(), udpPort);
 				
+				// Output stream 
 				OutputStreamManager osm = new OutputStreamManager(serverUDP,socketAddress);
 				incomingConnections.add(osm);
 				
