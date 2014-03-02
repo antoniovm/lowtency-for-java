@@ -8,6 +8,18 @@ public class Oscillator {
 	private long dt;
 	
 	public Oscillator(double sampleRate) {
+		this(sampleRate,440.0,1.0);
+	}
+	
+	public Oscillator(double sampleRate, double freq, double amplitude) {
+		this(sampleRate,440.0,1.0,0l);
+	}
+	
+	public Oscillator(double sampleRate, double freq) {
+		this(sampleRate,440.0,1.0);
+	}
+	
+	public Oscillator(double sampleRate, double freq, double amplitude, long dt) {
 		this.sampleRate = sampleRate;
 		this.freq = 440.0;
 		this.dt = 0l;
@@ -37,7 +49,7 @@ public class Oscillator {
 	
 	public void changeAmplitude(double amplitude) {
 		if (amplitude < 0 || amplitude > 1) {
-			throw new IllegalArgumentException("Amplitude must be betweem 0 and 1");
+			throw new IllegalArgumentException("Amplitude must be between 0 and 1");
 		}
 		this.amplitude = amplitude;
 	}

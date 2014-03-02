@@ -17,7 +17,11 @@ import com.avm.audio.libtest.AudioWaveManager;
  */
 public class OutputStreamManager implements Runnable{
 	
-	public static final int DEFAULT_BUFFER_SIZE = 8192;
+	public static final int DEFAULT_SAMPLE_BUFFER_SIZE = 8192;
+	public static final int DEFAULT_CHANNELS = 1;
+	
+	// Sample size in bytes
+	public static final int DEFAULT_SAMPLE_SIZE = 2;
 	public static final int DEFAULT_SAMPLE_RATE = 44100;
 	
 	private AudioWaveManager audioWaveManager;
@@ -28,7 +32,7 @@ public class OutputStreamManager implements Runnable{
 	 * 
 	 */
 	public OutputStreamManager(DatagramSocket serverUDP,SocketAddress address) {
-		this.audioWaveManager = new AudioWaveManager(DEFAULT_BUFFER_SIZE, DEFAULT_SAMPLE_RATE);
+		this.audioWaveManager = new AudioWaveManager(DEFAULT_SAMPLE_BUFFER_SIZE, DEFAULT_SAMPLE_SIZE, DEFAULT_CHANNELS,DEFAULT_SAMPLE_RATE);
 		
 		audioWaveManager.fillBuffer();
 		
@@ -38,7 +42,6 @@ public class OutputStreamManager implements Runnable{
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
-		//this.data = buffer;
 	}
 
 	/* (non-Javadoc)
@@ -46,26 +49,66 @@ public class OutputStreamManager implements Runnable{
 	 */
 	@Override
 	public void run() {
+		
+		// Testing measurements
+		measureUDPTime();
+		
+		// Infinite loop
+		handleOutputAudioStream();
+			
+		
+	}
+	
+	/**
+	 * 
+	 */
+	private void handleOutputAudioStream() {
+	
 		while (true) {
 			//TODO get stream
 			//TODO compress stream
 			//TODO send commpressed stream
+			
+			// ------------------Test audio input data--------------------
 			audioWaveManager.fillBuffer();
 			packetUDP.setData(audioWaveManager.getBuffer());
+			// ------------------Test audio input data--------------------
+			
+			
 			try {
 				serverUDP.send(packetUDP);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("First byte: "+audioWaveManager.getBuffer()[0]);
+			
+			// ------------------Real time audio sync--------------------
 			try {
-				Thread.sleep((long)(DEFAULT_BUFFER_SIZE/(double)(DEFAULT_SAMPLE_RATE*2)*500));
+				Thread.sleep((long)(DEFAULT_SAMPLE_BUFFER_SIZE/(double)(DEFAULT_SAMPLE_RATE)));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			// ------------------Real time audio sync--------------------
 		
 		}
+
+	}
+	
+	/**
+	 * 
+	 */
+	private void measureUDPTime() {
+		
+		
+		//Starts a new thread to measure the timing of upd packets arrivals 
+		new Thread(new Runnable() {
 			
+			@Override
+			public void run() {
+				
+				
+				
+			}
+		}).start();
 		
 	}
 

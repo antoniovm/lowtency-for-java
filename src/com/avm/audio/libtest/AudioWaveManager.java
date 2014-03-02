@@ -17,9 +17,9 @@ public class AudioWaveManager {
 	private Oscillator oscillator;
 	
 	
-	public AudioWaveManager(int bufferSize, double sampleRate) {
+	public AudioWaveManager(int sampleBufferSize, int sampleSize, int channels, double sampleRate) {
 		this.oscillator = new Oscillator(sampleRate);
-		this.buffer = new byte [bufferSize];
+		this.buffer = new byte [sampleBufferSize];
 	}
 	
 	public void fillBuffer() {
