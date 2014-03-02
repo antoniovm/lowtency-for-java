@@ -7,7 +7,7 @@ package com.avm.util;
  * @author Antonio Vicente Martin
  * 
  *         This class is a tool to convert or split primitives types into bytes
- *         values
+ *         arrays
  */
 public class ByteConverter {
 
@@ -34,14 +34,37 @@ public class ByteConverter {
 	}
 	
 	/**
-	 * Returns a value splitted into a byte array
-	 * @param value
-	 * @param numBytes
+	 * Returns a new array of bytes with the splitted value
+	 * @param value The vale to convert
+	 * @param numBytes The number of bytes
+	 * @return bytes The array of bytes
+	 */
+	public static byte[] toBytesArray(long value, int numBytes) {
+		byte[] bytes = new byte[numBytes];
+
+		return toBytesArray(value, bytes);
+	}
+	
+	/**
+	 * Returns a value splitted into a specified byte array
+	 * @param value The long value to split
+	 * @param bytes The array of bytes to write in
 	 * @return bytes The value's bytes
 	 */
-	private static byte[] toBytesArray(long value, int numBytes) {
-		byte[] bytes = new byte[numBytes];
-		for (int i = 0; i < bytes.length; i++) {
+	public static byte[] toBytesArray(long value, byte [] bytes) {
+		return toBytesArray(value, bytes, 0, bytes.length);
+	}
+	
+	/**
+	 * Returns a value splitted into a specified byte array
+	 * @param value The long value to split
+	 * @param bytes The array of bytes to write in
+	 * @param start The start iteration index
+	 * @param end The end iterarion index
+	 * @return bytes The value's bytes
+	 */
+	public static byte[] toBytesArray(long value, byte [] bytes, int start, int end) {
+		for (int i = start; i < end; i++) {
 			bytes[i] = getByteAt(value, i);
 		}
 
@@ -49,7 +72,11 @@ public class ByteConverter {
 	}
 	
 	/**
-	 * 
+	 * Return an integer built from an array of bytes
+	 * @param bytes The raw bytes
+	 * @param index The initial position
+	 * @param littleEndian The byte order
+	 * @return The int value
 	 */
 	public static int toIntValue(byte [] bytes, int index, boolean littleEndian) {
 		int value = 0;

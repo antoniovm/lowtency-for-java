@@ -72,16 +72,6 @@ public class ConnectionsManager implements Runnable{
 				//Starts a new thread to handle the streaming
 				new Thread(osm).start();
 				
-				//Starts a new thread to measure the timing of upd packets arrivals 
-				new Thread(new Runnable() {
-					
-					@Override
-					public void run() {
-						
-						
-						
-					}
-				}).start();
 			} catch (IOException e) {
 				e.printStackTrace();
 				System.exit(-1);
