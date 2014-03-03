@@ -90,7 +90,7 @@ public class OutputStreamManager implements Runnable {
 
 			// ------------------Test audio input data--------------------
 			audioWaveManager.fillBuffer(DEFAULT_AUDIO_HEADER_SIZE);
-			ByteConverter.toBytesArray(udpId, audioWaveManager.getBuffer(), 0, 4);
+			ByteConverter.toBytesArray(udpId, audioWaveManager.getBuffer(), 0, 4, true);
 			timesArray[(int) (udpId % DEFAULT_SAMPLE_BUFFER_SIZE)] = System.currentTimeMillis();
 			// ------------------Test audio input data--------------------
 
