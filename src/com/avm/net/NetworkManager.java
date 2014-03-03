@@ -10,42 +10,48 @@ import java.util.Enumeration;
 
 /**
  * @author Antonio Vicente Martin
- *
+ * 
  */
 public class NetworkManager {
 
-	
+	/**
+	 * Returns a list of the network interfaces with their IPs if available
+	 * 
+	 * @return A string with the interfaces list
+	 */
 	public static String printListString() {
 		StringBuffer buffer = new StringBuffer();
-		Enumeration<NetworkInterface> networkInterfaces = null;
+		Enumeration<NetworkInterface> netIfaces = null;
 		try {
-			networkInterfaces = NetworkInterface.getNetworkInterfaces();
+			netIfaces = NetworkInterface.getNetworkInterfaces();
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
-		
-		for (NetworkInterface networkInterface = networkInterfaces.nextElement(); networkInterfaces.hasMoreElements();networkInterface = networkInterfaces.nextElement()){
+		NetworkInterface netIface = netIfaces.nextElement();
+		for (; netIfaces.hasMoreElements(); netIface = netIfaces.nextElement()) {
 			try {
-				if (!networkInterface.isLoopback() && networkInterface.isUp()) {
-					buffer.append("\n" + networkInterface.getName()+": ");
-					
-					for (Enumeration<InetAddress> enumIpAddr = networkInterface.getInetAddresses(); enumIpAddr.hasMoreElements();) {
-		                InetAddress inetAddress = enumIpAddr.nextElement();
-		                if (!inetAddress.isLoopbackAddress() && !inetAddress.isLinkLocalAddress() && inetAddress.isSiteLocalAddress()) {
-		                	buffer.append(inetAddress.getHostAddress()+" ");
-		                }
+				if (!netIface.isLoopback() && netIface.isUp()) {
+					buffer.append("\n" + netIface.getName() + ": ");
 
-		            }
+					Enumeration<InetAddress> enumIpAddr = netIface.getInetAddresses();
+					for (; enumIpAddr.hasMoreElements();) {
+						InetAddress inetAddress = enumIpAddr.nextElement();
+
+						if (!inetAddress.isLoopbackAddress() && !inetAddress.isLinkLocalAddress()
+								&& inetAddress.isSiteLocalAddress()) {
+							buffer.append(inetAddress.getHostAddress() + " ");
+						}
+
+					}
 				}
-				
+
 			} catch (SocketException e) {
 				e.printStackTrace();
 			}
-		       
+
 		}
-		
-		
+
 		return buffer.toString();
 	}
-	
+
 }

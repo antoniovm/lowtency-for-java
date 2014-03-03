@@ -33,7 +33,10 @@ public class OutputStreamManager implements Runnable {
 	private DatagramPacket packetUDP;
 
 	/**
+	 * Builds a new {@link OutputStreamManager}
 	 * 
+	 * @param serverUDP
+	 * @param address
 	 */
 	public OutputStreamManager(DatagramSocket serverUDP, SocketAddress address) {
 		this.audioWaveManager = new AudioWaveManager(DEFAULT_SAMPLE_BUFFER_SIZE, DEFAULT_SAMPLE_SIZE, DEFAULT_CHANNELS,
@@ -69,7 +72,10 @@ public class OutputStreamManager implements Runnable {
 	}
 
 	/**
+	 * This is the main method where all streaming goes out
 	 * 
+	 * @param timesArray
+	 *            An array of time per each UDP datagram for testing purposes
 	 */
 	private void handleOutputAudioStream(long[] timesArray) {
 
@@ -107,7 +113,10 @@ public class OutputStreamManager implements Runnable {
 	}
 
 	/**
+	 * This is a testing method to measure time between UDP datagram arrivals
 	 * 
+	 * @param timesArray
+	 *            The time array where output time per datagram is store
 	 */
 	private void measureUDPTime(final long[] timesArray) {
 
@@ -127,7 +136,7 @@ public class OutputStreamManager implements Runnable {
 					}
 
 					int updId = ByteConverter.toIntValue(datagramPacket.getData(), 0, true);
-					long time = System.currentTimeMillis() - timesArray[updId];
+					long time = System.currentTimeMillis() - timesArray[updId % DEFAULT_SAMPLE_BUFFER_SIZE];
 					System.out.println("Packet " + updId + ": " + time + "ms");
 				}
 
