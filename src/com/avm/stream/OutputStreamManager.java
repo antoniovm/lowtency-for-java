@@ -92,6 +92,8 @@ public class OutputStreamManager implements Runnable {
 			audioWaveManager.fillBuffer(DEFAULT_AUDIO_HEADER_SIZE);
 			ByteConverter.toBytesArray(udpId, audioWaveManager.getBuffer(), 0, 4, true);
 			timesArray[(int) (udpId % DEFAULT_SAMPLE_BUFFER_SIZE)] = System.currentTimeMillis();
+			udpId++;
+			// System.out.println("UDP " + udpId + ": sent");
 			// ------------------Test audio input data--------------------
 
 			try {
@@ -102,7 +104,7 @@ public class OutputStreamManager implements Runnable {
 
 			// ------------------Real time audio sync--------------------
 			try {
-				Thread.sleep((long) (DEFAULT_SAMPLE_BUFFER_SIZE / (double) (DEFAULT_SAMPLE_RATE)));
+				Thread.sleep((long) ((DEFAULT_SAMPLE_BUFFER_SIZE / (double) (DEFAULT_SAMPLE_RATE)) * 1000));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -137,7 +139,7 @@ public class OutputStreamManager implements Runnable {
 
 					int updId = ByteConverter.toIntValue(datagramPacket.getData(), 0, true);
 					long time = System.currentTimeMillis() - timesArray[updId % DEFAULT_SAMPLE_BUFFER_SIZE];
-					System.out.println("Packet " + updId + ": " + time + "ms");
+					System.out.println("UDP " + updId + ": " + time + "ms");
 				}
 
 			}

@@ -41,10 +41,10 @@ public class AudioWaveManager {
 	}
 
 	public void fillBuffer(int offset) {
-		int increase = channels;
+		int increase = channels * sampleSize;
 
 		// Converts a short value into 2 bytes
-		for (int i = offset; i < buffer.length; i += increase) {
+		for (int i = offset; i < (buffer.length / increase); i += increase) {
 			double doubleValue = 0.0;
 
 			// Get each input sample
