@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.avm.net;
+package com.antoniovm.lowtency.net;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.ArrayList;
 
-import com.avm.stream.OutputStreamManager;
+import com.antoniovm.lowtency.stream.OutputStreamManager;
 
 /**
  * @author Antonio Vicente Martin

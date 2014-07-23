@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.avm.stream;
+package com.antoniovm.lowtency.stream;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -9,8 +9,8 @@ import java.net.DatagramSocket;
 import java.net.SocketAddress;
 import java.net.SocketException;
 
-import com.avm.audio.libtest.AudioWaveManager;
-import com.avm.util.ByteConverter;
+import com.antoniovm.lowtency.audio.libtest.AudioWaveManager;
+import com.antoniovm.lowtency.util.ByteConverter;
 
 /**
  * @author Antonio Vicente Martin

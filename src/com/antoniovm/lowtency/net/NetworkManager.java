@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.avm.net;
+package com.antoniovm.lowtency.net;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

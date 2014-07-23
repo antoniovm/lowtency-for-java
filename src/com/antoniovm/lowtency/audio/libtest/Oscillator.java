@@ -1,4 +1,4 @@
-package com.avm.audio.libtest;
+package com.antoniovm.lowtency.audio.libtest;
 
 public class Oscillator {
 

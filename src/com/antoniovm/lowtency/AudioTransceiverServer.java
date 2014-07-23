@@ -1,9 +1,9 @@
 /**
  * 
  */
-package com.avm;
+package com.antoniovm.lowtency;
 
-import com.avm.net.ConnectionsManager;
+import com.antoniovm.lowtency.net.ConnectionsManager;
 
 /**
  * @author Antonio Vicente Martin

@@ -1,8 +1,8 @@
-package com.avm.audio.libtest;
+package com.antoniovm.lowtency.audio.libtest;
 
 import java.util.ArrayList;
 
-import com.avm.util.ByteConverter;
+import com.antoniovm.lowtency.util.ByteConverter;
 
 /**
  * @author Antonio Vicente Martin
